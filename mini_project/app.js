@@ -5,14 +5,21 @@ const server = http.createServer((req, res) => {
     // console.log(req.url,req.method,req.headers);
     const url = req.url;
     const method = req.method;
-     let userData;
+    
     if(url === '/'){
+        // const pathName = path.join(__dirname, 'message.txt')
+        fs.readFile('message.txt', 'utf8', (err, data) =>{
+
+            console.log("reading from msg.txt file + ",data)
+       
     res.write('<html>')
     res.write('<head><title>First page</title></head>')
+    res.write(`<body>${data}</body>`)
     res.write('<body><form action="/message" method="POST"><input type="text" name="mesage"><button type="submit">Send</button></form></body>')
     res.write('</html>')
    return res.end();
-    }
+    })
+}
     if(url === '/message' && method === 'POST'){
        
         const body = [];
@@ -30,13 +37,6 @@ const server = http.createServer((req, res) => {
                 return res.end();
                
             });
-            fs.readFile('message.txt', 'utf8', (err,data)=>{
-
-                console.log("reading from msg.txt file",data)
-                
-                
-                
-            })
             // console.log(parsedData)
         })
             // fs.writeFileSync('message.txt','Dummy');
